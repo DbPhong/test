@@ -6,8 +6,7 @@
     <title>Giáng sinh cùng em</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Font mới đẹp hơn, mềm mại và lãng mạn hơn cho Giáng sinh -->
-    <link href="https://fonts.googleapis.com/css2?family=Satisfy&family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -43,9 +42,8 @@
         }
 
         h1 {
-            /* Đổi sang font Satisfy - nét chữ tay rất lãng mạn, phù hợp Giáng sinh */
-            font-family: 'Satisfy', cursive;
-            font-size: 4.2em;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5em;
             margin-bottom: 25px;
             animation: glow 3s ease-in-out infinite alternate;
         }
@@ -331,9 +329,8 @@
         .face.front {
             background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
-            /* Đổi font mặt trước card thành Satisfy cho lãng mạn hơn */
-            font-family: 'Satisfy', cursive;
-            font-size: 4em; /* Tăng nhẹ cho đẹp */
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5em; /* Tăng size để đẹp và rõ trên mọi thiết bị */
             transform: rotateY(0deg);
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 
                          0 0 30px rgba(255, 182, 193, 0.6);
@@ -362,9 +359,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            /* Font chữ tay lãng mạn */
-            font-family: 'Satisfy', cursive;
-            font-size: 1em;
+            font-family: 'Dancing Script', cursive;
+            font-size: 0.9em;
             color: #ff69b4;
             text-align: center;
             background: rgba(255, 255, 255, 0.8);
@@ -428,9 +424,8 @@
         }
 
         #victoryOverlay h2 {
-            /* Font Satisfy cho tiêu đề victory */
-            font-family: 'Satisfy', cursive;
-            font-size: 3.5em;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3em;
             color: #ff69b4;
             margin-bottom: 20px;
             animation: heartBeat 1s infinite;
@@ -513,8 +508,7 @@
             text-align: center;
             padding: 5px;
             font-size: 0.8em;
-            /* Font chữ tay */
-            font-family: 'Satisfy', cursive;
+            font-family: 'Dancing Script', cursive;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -606,8 +600,7 @@
             padding: 20px;
             max-width: 460px;
             margin: auto;
-            /* Font chữ tay chính cho lời nhắn */
-            font-family: 'Satisfy', cursive;
+            font-family: 'Dancing Script', cursive;
             text-align: center;
             box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -635,14 +628,14 @@
         }
 
         .back-content h3 {
-            font-size: 2.2em; /* Tăng size vì Satisfy nhẹ hơn */
+            font-size: 1.2em; /* Tăng từ 1.6em */
             margin-bottom: 15px;
             color: #ff69b4;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .back-content p {
-            font-size: 1.4em; /* Tăng size cho dễ đọc */
+            font-size: 1.1em; /* Tăng từ 1em */
             line-height: 1.6;
             margin-bottom: 8px;
         }
@@ -650,7 +643,7 @@
         .highlight {
             color: #ff69b4;
             font-weight: 700;
-            font-size: 1.6em; /* Tăng nhẹ cho highlight */
+            font-size: 1.3em; /* Tăng nhẹ cho highlight */
             animation: heartBeat 1.5s ease-in-out infinite;
             text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
@@ -658,12 +651,11 @@
         .hint {
             margin-top: 20px;
             opacity: 0.9;
-            font-size: 1.1em;
+            font-size: 1em;
             font-style: italic;
             animation: fadeIn 2s ease-in-out infinite alternate;
             color: #ffb6c1;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-            font-family: 'Satisfy', cursive;
         }
 
         @keyframes fadeIn {
@@ -720,9 +712,9 @@
             }
 
             h1 { 
-                font-size: 3.2em; /* Giảm nhẹ vì Satisfy to hơn */
+                font-size: 2.5em; 
                 margin-bottom: 15px;
-                letter-spacing: 1px;
+                letter-spacing: 1px; /* Giảm spacing cho text ngắn hơn */
             }
 
             button { 
@@ -733,29 +725,29 @@
 
             .photo-frame { 
                 width: 100%; 
-                max-width: 350px;
-                height: auto;
+                max-width: 350px; /* Tăng từ 320px để ảnh to hơn */
+                height: auto; /* Auto height dựa trên aspect */
                 aspect-ratio: 460 / 438;
             }
 
             .message-section { 
                 max-width: 100%; 
                 padding: 15px; 
-                margin-top: 10px;
-                font-size: 1.1em;
+                margin-top: 10px; 
+                font-size: 0.95em; /* Giảm nhẹ text */
             }
 
             .back-content h3 { 
-                font-size: 2em;
+                font-size: 1.6em; /* Giảm nhẹ cho mobile nhưng vẫn to hơn gốc */
             }
 
             .back-content p { 
-                font-size: 1.2em;
+                font-size: 1em; /* Giảm nhẹ cho mobile */
                 line-height: 1.5;
             }
 
             .highlight {
-                font-size: 1.4em;
+                font-size: 1.2em; /* Giảm nhẹ cho mobile */
             }
 
             .photo-section { 
@@ -768,27 +760,27 @@
             }
 
             .gallery { 
-                padding: 20px 10px;
+                padding: 20px 10px; /* Padding ngang nhỏ hơn */
                 grid-template-columns: repeat(4, 1fr); 
                 grid-template-rows: repeat(4, 1fr); 
-                gap: 8px;
-                max-height: calc(100vh - 100px);
+                gap: 8px; /* Giảm gap một chút để bù cho card to hơn */
+                max-height: calc(100vh - 100px); /* Trừ header/footer */
                 overflow-y: auto;
                 justify-content: center;
             }
 
             .memory-card { 
-                width: 90px;
+                width: 90px; /* Tăng từ 80px để ảnh to hơn */
                 height: 90px; 
-                min-width: 90px;
+                min-width: 90px; /* Đảm bảo không co lại quá */
             }
 
             .face.front {
-                font-size: 3.5em;
+                font-size: 3em; /* Giảm nhẹ cho mobile nhưng vẫn to */
             }
 
             #victoryOverlay h2 { 
-                font-size: 2.8em; 
+                font-size: 2.2em; 
                 margin-bottom: 15px;
             }
 
@@ -798,16 +790,16 @@
 
             .vgallery { 
                 grid-template-columns: repeat(4, 1fr); 
-                grid-template-rows: repeat(3, 1fr);
-                gap: 8px;
+                grid-template-rows: repeat(3, 1fr); /* Thay thành 3 hàng cho responsive tốt hơn trên mobile */
+                gap: 8px; /* Giảm gap để bù cho card to hơn */
                 padding: 10px;
-                max-height: calc(60vh - 50px);
+                max-height: calc(60vh - 50px); /* Tăng height để fit 3 hàng */
                 overflow-y: auto;
                 justify-content: center;
             }
 
             .victory-card { 
-                width: 90px;
+                width: 90px; /* Tăng từ 80px để ảnh to hơn */
                 height: 90px; 
                 min-width: 90px;
             }
@@ -817,7 +809,7 @@
             }
 
             .hint {
-                font-size: 1em;
+                font-size: 0.9em;
                 margin-top: 10px;
             }
         }
@@ -825,7 +817,7 @@
         /* Extra cho mobile nhỏ hơn (portrait) */
         @media (max-width: 480px) {
             h1 { 
-                font-size: 2.8em; 
+                font-size: 2em; 
             }
 
             button { 
@@ -834,52 +826,52 @@
             }
 
             .gallery {
-                gap: 6px;
+                gap: 6px; /* Giảm thêm gap cho màn nhỏ */
                 padding: 15px 5px;
             }
 
             .memory-card { 
-                width: 80px;
+                width: 80px; /* Tăng từ 70px để ảnh to hơn một chút */
                 height: 80px; 
             }
 
             .face.front {
-                font-size: 3.2em;
+                font-size: 2.8em; /* Vẫn giữ to trên màn rất nhỏ */
             }
 
             .vgallery {
-                gap: 6px;
-                grid-template-rows: repeat(3, 1fr);
+                gap: 6px; /* Giảm thêm gap cho màn nhỏ */
+                grid-template-rows: repeat(3, 1fr); /* Giữ 3 hàng */
             }
 
             .victory-card { 
-                width: 80px;
+                width: 80px; /* Tăng từ 70px để ảnh to hơn một chút */
                 height: 80px; 
             }
 
             .photo-frame {
-                max-width: 300px;
+                max-width: 300px; /* Tăng từ 280px để ảnh to hơn */
             }
 
             .message-section {
                 padding: 12px;
-                font-size: 1em;
+                font-size: 0.9em;
             }
 
             .back-content h3 { 
-                font-size: 1.8em;
+                font-size: 1.5em; /* Giảm nhẹ cho màn nhỏ */
             }
 
             .back-content p { 
-                font-size: 1.1em;
+                font-size: 0.95em; /* Giảm nhẹ cho màn nhỏ */
             }
 
             .highlight {
-                font-size: 1.3em;
+                font-size: 1.1em; /* Giảm nhẹ cho màn nhỏ */
             }
 
             #victoryOverlay h2 { 
-                font-size: 2.4em; 
+                font-size: 1.8em; 
             }
         }
 
