@@ -816,7 +816,7 @@
     </div>
     
     <audio id="bgMusic" loop preload="auto">
-        <source src="/Giang_Sinh/mp3/we-wish-you-a-merry-christmas-background-xmas-music-for-video-30-sec-256123.mp3" type="audio/mpeg">
+        <source src="./Giang_Sinh/mp3/we-wish-you-a-merry-christmas-background-xmas-music-for-video-30-sec-256123.mp3" type="audio/mpeg">
         Trình duyệt của bạn không hỗ trợ audio.
     </audio>
 
@@ -828,7 +828,7 @@
             <div id="photoCard" class="photo-card">
                 <div class="photo-section">
                     <div class="photo-frame">
-                        <img id="currentPhoto" src="/Giang_Sinh/img/anh1.png" class="inner-photo">
+                        <img id="currentPhoto" src="./Giang_Sinh/img/anh1.png" class="inner-photo">
                     </div>
                 </div>
                 <div id="messageSection" class="message-section hidden">
@@ -924,14 +924,14 @@
 
         // Mảng 8 scenes (chỉ dùng 8 ảnh đầu tiên, bạn có thể chỉnh messages nếu cần)
         const allScenes = [
-            { photo: '/Giang_Sinh/img/anh1.png', title: '🎁 Quà tặng đặc biệt...', messages: ['Nói sao ta, bức ảnh này làm anh thấy em thật trẻ con.', 'Kiểu nó hồn nhiên á, anh thích em luôn như thế này.', 'Hãy luôn yêu đời và vui vẻ nha bé của anh.', 'Mà bớt nói chia tay đi', 'Yêu em ❤️'] },
-            { photo: '/Giang_Sinh/img/anh2.png', title: '🌟 Tấm ảnh vũng tàu...', messages: ['Tấm này cười tươi quá nè.', 'Mà tấm này nhìn em nhoi nhoi thật á.', 'Anh hy vọng là 2 đứa mình sẽ có thêm nhiều tấm ảnh kiểu này.','Hy vọng rằng anh và em luôn cười mãi khi gặp nhau, hehe.', 'Yêu em nhắmmmm! 😘'] },
-            { photo: '/Giang_Sinh/img/anh3.png', title: '💌 Lời anh viết cho em...', messages: ['Khong biết tại sao mà tấm này a cảm thấy nó rất đặc biệt.', 'Không phải vì chúng hoàn hảo,', 'mà vì trong đó có em.', 'Cảm ơn em vì đã ở bên anh,', 'đã cùng anh đi qua những ngày rất bình thường.', 'Anh thương em nhiều lắm ❤️'] },
-            { photo: '/Giang_Sinh/img/anh4.png', title: '💕 Kỷ niệm Giáng sinh đầu tiên...', messages: ['Sao mà tấm này nó lại xinh lung linh thế nhỉ?', 'Ai mà lại xinh lung linh dị ta,', 'và tim anh rung động vì em.', 'Em là món quà tuyệt vời nhất anh từng có.', 'Hãy cùng anh tạo thêm nhiều kỷ niệm nhé.', 'Yêu em bá cháy 🔥'] },
-            { photo: '/Giang_Sinh/img/anh5.png', title: '🎄 Ước mơ tương lai...', messages: ['Tấm này cũng xinh nè.', 'Dù có khen bao nhiêu lần đi nữa cũng không thể tả hết được vẻ đẹp này,', 'anh muốn ôm em.', 'Em là ánh sáng của anh hoặc là ..., hihi.', 'Yêu bé ❤️'] },
-            { photo: '/Giang_Sinh/img/anh6.png', title: '☕ Ấm áp bên em...', messages: ['Tấm này a bá cháy thật đấy, muahahaha.', 'Giáng sinh này, anh muốn ôm em thật chặt.', 'Như cách cách em chủ động ôm anh vào lần đầu vậy, hehe.', 'Rất rất iuuuuuu em! ☕'] },
-            { photo: '/Giang_Sinh/img/anh7.png', title: '🌹 Bó hoa bất ngờ...', messages: ['Tấm này nhìn em cũng nhoi quá.', 'Nhưng anh lại yêu cái nhoi này mất ròi.', 'Em phải chịu trách nhiệm nhé?', 'Anh muốn bên em ❤️'] },
-            { photo: '/Giang_Sinh/img/anh8.png', title: '🚀 Hành trình cùng em...', messages: ['Khi nhìn tấm ảnh này anh cứ ngỡ e là cô dâu', 'Sau này, anh muốn thấy dáng vẻ đó khi em bên cạnh anh.', 'Ở bên a nhé! ✈️'] }
+            { photo: './Giang_Sinh/img/anh1.png', title: '🎁 Quà tặng đặc biệt...', messages: ['Nói sao ta, bức ảnh này làm anh thấy em thật trẻ con.', 'Kiểu nó hồn nhiên á, anh thích em luôn như thế này.', 'Hãy luôn yêu đời và vui vẻ nha bé của anh.', 'Mà bớt nói chia tay đi', 'Yêu em ❤️'] },
+            { photo: './Giang_Sinh/img/anh2.png', title: '🌟 Tấm ảnh vũng tàu...', messages: ['Tấm này cười tươi quá nè.', 'Mà tấm này nhìn em nhoi nhoi thật á.', 'Anh hy vọng là 2 đứa mình sẽ có thêm nhiều tấm ảnh kiểu này.','Hy vọng rằng anh và em luôn cười mãi khi gặp nhau, hehe.', 'Yêu em nhắmmmm! 😘'] },
+            { photo: './Giang_Sinh/img/anh3.png', title: '💌 Lời anh viết cho em...', messages: ['Khong biết tại sao mà tấm này a cảm thấy nó rất đặc biệt.', 'Không phải vì chúng hoàn hảo,', 'mà vì trong đó có em.', 'Cảm ơn em vì đã ở bên anh,', 'đã cùng anh đi qua những ngày rất bình thường.', 'Anh thương em nhiều lắm ❤️'] },
+            { photo: './Giang_Sinh/img/anh4.png', title: '💕 Kỷ niệm Giáng sinh đầu tiên...', messages: ['Sao mà tấm này nó lại xinh lung linh thế nhỉ?', 'Ai mà lại xinh lung linh dị ta,', 'và tim anh rung động vì em.', 'Em là món quà tuyệt vời nhất anh từng có.', 'Hãy cùng anh tạo thêm nhiều kỷ niệm nhé.', 'Yêu em bá cháy 🔥'] },
+            { photo: './Giang_Sinh/img/anh5.png', title: '🎄 Ước mơ tương lai...', messages: ['Tấm này cũng xinh nè.', 'Dù có khen bao nhiêu lần đi nữa cũng không thể tả hết được vẻ đẹp này,', 'anh muốn ôm em.', 'Em là ánh sáng của anh hoặc là ..., hihi.', 'Yêu bé ❤️'] },
+            { photo: './Giang_Sinh/img/anh6.png', title: '☕ Ấm áp bên em...', messages: ['Tấm này a bá cháy thật đấy, muahahaha.', 'Giáng sinh này, anh muốn ôm em thật chặt.', 'Như cách cách em chủ động ôm anh vào lần đầu vậy, hehe.', 'Rất rất iuuuuuu em! ☕'] },
+            { photo: './Giang_Sinh/img/anh7.png', title: '🌹 Bó hoa bất ngờ...', messages: ['Tấm này nhìn em cũng nhoi quá.', 'Nhưng anh lại yêu cái nhoi này mất ròi.', 'Em phải chịu trách nhiệm nhé?', 'Anh muốn bên em ❤️'] },
+            { photo: './Giang_Sinh/img/anh8.png', title: '🚀 Hành trình cùng em...', messages: ['Khi nhìn tấm ảnh này anh cứ ngỡ e là cô dâu', 'Sau này, anh muốn thấy dáng vẻ đó khi em bên cạnh anh.', 'Ở bên a nhé! ✈️'] }
         ];
 
         // Chọn tất cả 8 scenes (không random nữa vì chỉ có 8, nhưng vẫn shuffle để random vị trí)
