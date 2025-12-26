@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giáng sinh cùng em</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/Giang_Sinh/img/anh-mo-ta.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        #snowCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+            padding: 20px; /* Thêm padding để tránh sát mép trên mobile */
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5em;
+            margin-bottom: 25px;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        .magic-text {
+            position: relative;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .magic-text span {
+            display: inline-block;
+            color: #fff;
+            animation: glowText 4s ease-in-out infinite alternate;
+        }
+
+        .magic-text::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #ffb6c1;
+            filter: blur(25px);
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        @keyframes glowText {
+            0% { filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 20px rgba(255, 182, 193, 0.8)); transform: scale(1.02); }
+            100% { filter: drop-shadow(0 0 10px rgba(255, 182, 193, 0.6)); transform: scale(1); }
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px #fff); }
+            to { filter: drop-shadow(0 0 20px #ff69b4); }
+        }
+
+        button {
+            position: relative;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: white;
+            background: linear-gradient(135deg, #ff4d6d, #ff1744);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            animation: pulse 2s infinite ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 32px rgba(255, 77, 109, 0.3);
+            min-height: 60px; /* Đảm bảo button đủ lớn cho touch trên mobile */
+            touch-action: manipulation; /* Tối ưu touch events */
+        }
+
+        button:hover, button:active {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 12px 40px rgba(255, 77, 109, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Frame 2 */
+        .frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+            flex-direction: column; /* Stack vertically nếu cần */
+        }
+
+        .frame.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Exit button */
+        .exit-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 105, 180, 0.5);
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 4;
+            font-family: 'Playfair Display', serif;
+            min-height: 44px; /* Touch-friendly */
+            min-width: 80px;
+        }
+
+        .exit-btn:hover, .exit-btn:active {
+            background: rgba(255, 105, 180, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Gallery - Memory game grid 4x4 */
+        .gallery {
+            display: grid;
+            grid-template-rows: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 800px;
+            max-height: 800px;
+            padding: 50px;
+            overflow: hidden;
+            perspective: 1200px; /* Tăng depth để flip rõ hơn */
+            width: 100%; /* Full width */
+            height: auto; /* Auto height */
+        }
+
+        .memory-card {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+            touch-action: manipulation; /* Tối ưu touch */
+        }
+
+        .memory-card.matched {
+            border: 3px solid #ff69b4;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+            animation: matchGlow 1s ease-out;
+            transform: rotateY(180deg) !important; /* Hiển thị mặt back (ảnh) vĩnh viễn sau khi match */
+            cursor: pointer; /* Giữ cursor để gợi ý click đọc lại */
+        }
+
+        @keyframes matchGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.6); }
+            100% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.8); }
+        }
+
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.flipped .face.front {
+            transform: rotateY(180deg); /* Explicit rotate front khi flipped */
+        }
+
+        .memory-card.flipped .face.back {
+            transform: rotateY(0deg); /* Explicit rotate back khi flipped */
+        }
+
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden; /* Cho Safari/iOS */
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .face.front {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2em;
+            transform: rotateY(0deg);
+        }
+
+        .face.back {
+            transform: rotateY(180deg);
+            position: relative; /* Để pseudo-element overlay */
+        }
+
+        .face.back::after {
+            content: '🎄 Kỷ niệm đặc biệt';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Dancing Script', cursive;
+            font-size: 0.9em;
+            color: #ff69b4;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .face.back.error .thumb-photo {
+            opacity: 0; /* Ẩn img lỗi */
+        }
+
+        .face.back.error::after {
+            opacity: 1; /* Show placeholder */
+        }
+
+        .face.back .thumb-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .thumb-photo.error {
+            opacity: 0;
+        }
+
+        /* Victory overlay */
+        #victoryOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 4;
+            flex-direction: column;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto; /* Cho phép scroll nếu nội dung dài */
+        }
+
+        #victoryOverlay.show {
+            display: flex;
+        }
+
+        .victory-header {
+            margin-bottom: 30px;
+            z-index: 5;
+            padding: 0 20px;
+        }
+
+        #victoryOverlay h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3em;
+            color: #ff69b4;
+            margin-bottom: 20px;
+            animation: heartBeat 1s infinite;
+        }
+
+        #victoryOverlay p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        #victoryOverlay button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            min-height: 50px; /* Touch-friendly */
+        }
+
+        .vgallery {
+            display: none;
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 800px;
+            max-height: 400px;
+            padding: 20px;
+            overflow: hidden;
+            perspective: 1200px;
+            width: 100%;
+            height: auto;
+        }
+
+        .vgallery.show {
+            display: grid;
+        }
+
+        .victory-card {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+            border: 3px solid #ff69b4;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .victory-card:hover, .victory-card:active {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+        }
+
+        .victory-face {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .victory-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .victory-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-size: 0.8em;
+            font-family: 'Dancing Script', cursive;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .victory-card:hover .victory-overlay, .victory-card:active .victory-overlay {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Detail */
+        .detail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto; /* Cho phép scroll nếu message dài */
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 105, 180, 0.5);
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 4;
+            min-height: 44px; /* Touch-friendly */
+            min-width: 120px;
+        }
+
+        .back-btn:hover, .back-btn:active {
+            background: rgba(255, 105, 180, 0.3);
+            transform: scale(1.05);
+        }
+
+        .photo-card {
+            cursor: pointer;
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-align: center;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%; /* Full width */
+            touch-action: manipulation;
+        }
+
+        .photo-section {
+            margin-bottom: 20px;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 100%;
+        }
+
+        .photo-frame {
+            position: relative;
+            width: 460px;
+            height: 438px;
+            margin: auto;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 100%; /* Không vượt quá container */
+            aspect-ratio: 460 / 438; /* Giữ tỷ lệ nếu cần */
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(255, 255, 255, 0.15) inset;
+        }
+
+        .photo-section.scaled {
+            transform: scale(0.75);
+            margin-bottom: 0;
+        }
+
+        .inner-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .message-section {
+            background: linear-gradient(-45deg, #2c3e50, #34495e, #1a252f, #ff69b4);
+            background-size: 400% 400%;
+            color: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 460px;
+            margin: auto;
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: gradientShift 15s ease infinite;
+            width: 100%; /* Full width */
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .message-section.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .back-content {
+            width: 100%;
+        }
+
+        .back-content h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #ff69b4;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-content p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            color: #ff69b4;
+            font-weight: 700;
+            font-size: 1.2em;
+            animation: heartBeat 1.5s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        .hint {
+            margin-top: 20px;
+            opacity: 0.9;
+            font-size: 1em;
+            font-style: italic;
+            animation: fadeIn 2s ease-in-out infinite alternate;
+            color: #ffb6c1;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0.9; }
+            to { opacity: 1; }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Mobile responsive - Cải thiện cho tablet và mobile */
+        @media (max-width: 1024px) {
+            .gallery {
+                padding: 30px;
+                gap: 12px;
+            }
+            .memory-card {
+                width: 100px;
+                height: 100px;
+            }
+            .vgallery {
+                padding: 15px;
+                gap: 12px;
+            }
+            .victory-card {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden; /* Ngăn scroll ngang */
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            h1 { 
+                font-size: 2.5em; 
+                margin-bottom: 15px;
+                letter-spacing: 1px; /* Giảm spacing cho text ngắn hơn */
+            }
+
+            button { 
+                font-size: 1.3em; 
+                padding: 15px 30px; 
+                min-height: 50px; /* Giảm nhẹ nhưng vẫn touch-friendly */
+            }
+
+            .photo-frame { 
+                width: 100%; 
+                max-width: 350px; /* Tăng từ 320px để ảnh to hơn */
+                height: auto; /* Auto height dựa trên aspect */
+                aspect-ratio: 460 / 438;
+            }
+
+            .message-section { 
+                max-width: 100%; 
+                padding: 15px; 
+                margin-top: 10px; 
+                font-size: 0.95em; /* Giảm nhẹ text */
+            }
+
+            .back-content h3 { 
+                font-size: 1.4em; 
+            }
+
+            .back-content p { 
+                font-size: 0.95em; 
+                line-height: 1.5;
+            }
+
+            .photo-section { 
+                margin-bottom: 15px; 
+            }
+
+            .photo-section.scaled { 
+                transform: scale(0.8); 
+                margin-bottom: 0; 
+            }
+
+            .gallery { 
+                padding: 20px 10px; /* Padding ngang nhỏ hơn */
+                grid-template-columns: repeat(4, 1fr); 
+                grid-template-rows: repeat(4, 1fr); 
+                gap: 8px; /* Giảm gap một chút để bù cho card to hơn */
+                max-height: calc(100vh - 100px); /* Trừ header/footer */
+                overflow-y: auto;
+                justify-content: center;
+            }
+
+            .memory-card { 
+                width: 90px; /* Tăng từ 80px để ảnh to hơn */
+                height: 90px; 
+                min-width: 90px; /* Đảm bảo không co lại quá */
+            }
+
+            .face.front {
+                font-size: 1em; /* Giảm emoji size */
+            }
+
+            .back-btn, .exit-btn { 
+                font-size: 0.9em; 
+                padding: 8px 16px; 
+                min-height: 44px;
+                top: 10px;
+                left: 10px; /* Back btn */
+            }
+
+            .exit-btn {
+                right: 10px;
+            }
+
+            #victoryOverlay h2 { 
+                font-size: 2.2em; 
+                margin-bottom: 15px;
+            }
+
+            #victoryOverlay p {
+                font-size: 1.1em;
+            }
+
+            .vgallery { 
+                grid-template-columns: repeat(4, 1fr); 
+                grid-template-rows: repeat(2, 1fr); 
+                gap: 8px; /* Giảm gap để bù cho card to hơn */
+                padding: 10px;
+                max-height: calc(50vh - 50px);
+                overflow-y: auto;
+                justify-content: center;
+            }
+
+            .victory-card { 
+                width: 90px; /* Tăng từ 80px để ảnh to hơn */
+                height: 90px; 
+                min-width: 90px;
+            }
+
+            .victory-overlay {
+                font-size: 0.7em;
+            }
+
+            .hint {
+                font-size: 0.9em;
+                margin-top: 10px;
+            }
+        }
+
+        /* Extra cho mobile nhỏ hơn (portrait) */
+        @media (max-width: 480px) {
+            h1 { 
+                font-size: 2em; 
+            }
+
+            button { 
+                font-size: 1.2em; 
+                padding: 12px 25px; 
+            }
+
+            .gallery {
+                gap: 6px; /* Giảm thêm gap cho màn nhỏ */
+                padding: 15px 5px;
+            }
+
+            .memory-card { 
+                width: 80px; /* Tăng từ 70px để ảnh to hơn một chút */
+                height: 80px; 
+            }
+
+            .vgallery {
+                gap: 6px; /* Giảm thêm gap cho màn nhỏ */
+            }
+
+            .victory-card { 
+                width: 80px; /* Tăng từ 70px để ảnh to hơn một chút */
+                height: 80px; 
+            }
+
+            .photo-frame {
+                max-width: 300px; /* Tăng từ 280px để ảnh to hơn */
+            }
+
+            .message-section {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+
+            .back-content h3 { 
+                font-size: 1.3em; 
+            }
+
+            .back-content p { 
+                font-size: 0.9em; 
+            }
+
+            #victoryOverlay h2 { 
+                font-size: 1.8em; 
+            }
+        }
+
+        /* Landscape mode cho mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .gallery {
+                max-height: 100vh;
+                padding: 10px;
+            }
+
+            #victoryOverlay {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+
+            .victory-header {
+                width: 50%;
+                margin-bottom: 0;
+            }
+
+            .vgallery {
+                width: 50%;
+                max-height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+    <div class="container">
+        <h1 class="magic-text">
+            <span id="titleText">💌 Dành riêng cho em</span>
+        </h1>
+        <button id="startBtn">Em sẵn sàng chưa? 🎄</button>
+    </div>
+    
+    <audio id="bgMusic" loop preload="auto">
+        <source src="/Giang_Sinh/mp3/we-wish-you-a-merry-christmas-background-xmas-music-for-video-30-sec-256123.mp3" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ audio.
+    </audio>
+
+    <div id="frame2" class="frame hidden">
+        <button id="exitBtn" class="exit-btn">❌ Thoát</button>
+        <div id="gallery" class="gallery"></div>
+        <div id="detail" class="detail hidden">
+            <button id="backBtn" class="back-btn">← Quay lại trò chơi</button>
+            <div id="photoCard" class="photo-card">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img id="currentPhoto" src="/Giang_Sinh/img/anh1.png" class="inner-photo">
+                    </div>
+                </div>
+                <div id="messageSection" class="message-section hidden">
+                    <div class="back-content">
+                        <h3 id="messageTitle">💌 Lời anh viết cho em...</h3>
+                        <p id="msgLine1">Những khoảnh khắc này, với anh đều rất đặc biệt.</p>
+                        <p id="msgLine2">Không phải vì chúng hoàn hảo,</p>
+                        <p id="msgLine3">mà vì trong đó có em.</p>
+                        <p id="msgLine4">Cảm ơn em vì đã ở bên anh,</p>
+                        <p id="msgLine5">đã cùng anh đi qua những ngày rất bình thường.</p>
+                        <p id="msgLine6" class="highlight">Anh thương em nhiều lắm ❤️</p>
+                    </div>
+                </div>
+                <p class="hint">Nhấn vào tấm ảnh để đọc lời anh... 💫</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Victory Overlay -->
+    <div id="victoryOverlay">
+        <div class="victory-header">
+            <h2>🎉 Chúc mừng em! Đã tìm đủ 8 cặp kỷ niệm ❤️</h2>
+            <p>Anh yêu em nhiều lắm! Cùng tạo thêm kỷ niệm Giáng sinh nhé 💕</p>
+            <button onclick="resetGame()">Chơi lại với kỷ niệm mới 🎄</button>
+        </div>
+        <div id="vgallery" class="vgallery"></div>
+    </div>
+
+    <script>
+        let isButtonClicked = false;
+        let isMessageShown = false;
+        let typingInProgress = false;
+        let currentSceneIndex = 0;
+        let flippedCards = [];
+        let matchedPairs = new Set();
+        let selectedScenes = []; // Scenes random cho game này
+        let isVictory = false;
+        const canvas = document.getElementById('snowCanvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const frame2 = document.getElementById('frame2');
+        const gallery = document.getElementById('gallery');
+        const detail = document.getElementById('detail');
+        const photoCard = document.getElementById('photoCard');
+        const messageSection = document.getElementById('messageSection');
+        const hint = document.querySelector('.hint');
+        const photoSection = document.querySelector('.photo-section');
+        const backBtn = document.getElementById('backBtn');
+        const currentPhoto = document.getElementById('currentPhoto');
+        const victoryOverlay = document.getElementById('victoryOverlay');
+        const vgallery = document.getElementById('vgallery');
+        const exitBtn = document.getElementById('exitBtn');
+
+        // Resize canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Tuyết rơi
+        let snowflakes = [];
+        for (let i = 0; i < 150; i++) {
+            snowflakes.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * -canvas.height,
+                size: Math.random() * 3 + 1,
+                speed: Math.random() * 1 + 0.5,
+                drift: (Math.random() - 0.5) * 1.5,
+                opacity: Math.random() * 0.6 + 0.4
+            });
+        }
+        function drawSnow() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            snowflakes.forEach(flake => {
+                ctx.beginPath();
+                ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 250, 240, ${flake.opacity})`;
+                ctx.fill();
+                flake.y += flake.speed;
+                flake.x += flake.drift;
+                if (flake.y > canvas.height) {
+                    flake.y = -flake.size * 2;
+                    flake.x = Math.random() * canvas.width;
+                }
+                if (flake.x < 0 || flake.x > canvas.width) flake.drift *= -1;
+            });
+            requestAnimationFrame(drawSnow);
+        }
+        drawSnow();
+
+        // Mảng 8 scenes (chỉ dùng 8 ảnh đầu tiên, bạn có thể chỉnh messages nếu cần)
+        const allScenes = [
+            { photo: '/Giang_Sinh/img/anh1.png', title: '🎁 Quà tặng đặc biệt...', messages: ['Nói sao ta, bức ảnh này làm anh thấy em thật trẻ con.', 'Kiểu nó hồn nhiên á, anh thích em luôn như thế này.', 'Hãy luôn yêu đời và vui vẻ nha bé của anh.', 'Mà bớt nói chia tay đi', 'Yêu em ❤️'] },
+            { photo: '/Giang_Sinh/img/anh2.png', title: '🌟 Tấm ảnh vũng tàu...', messages: ['Tấm này cười tươi quá nè.', 'Mà tấm này nhìn em nhoi nhoi thật á.', 'Anh hy vọng là 2 đứa mình sẽ có thêm nhiều tấm ảnh kiểu này.','Hy vọng rằng anh và em luôn cười mãi khi gặp nhau, hehe.', 'Yêu em nhắmmmm! 😘'] },
+            { photo: '/Giang_Sinh/img/anh3.png', title: '💌 Lời anh viết cho em...', messages: ['Khong biết tại sao mà tấm này a cảm thấy nó rất đặc biệt.', 'Không phải vì chúng hoàn hảo,', 'mà vì trong đó có em.', 'Cảm ơn em vì đã ở bên anh,', 'đã cùng anh đi qua những ngày rất bình thường.', 'Anh thương em nhiều lắm ❤️'] },
+            { photo: '/Giang_Sinh/img/anh4.png', title: '💕 Kỷ niệm Giáng sinh đầu tiên...', messages: ['Sao mà tấm này nó lại xinh lung linh thế nhỉ?', 'Ai mà lại xinh lung linh dị ta,', 'và tim anh rung động vì em.', 'Em là món quà tuyệt vời nhất anh từng có.', 'Hãy cùng anh tạo thêm nhiều kỷ niệm nhé.', 'Yêu em bá cháy 🔥'] },
+            { photo: '/Giang_Sinh/img/anh5.png', title: '🎄 Ước mơ tương lai...', messages: ['Tấm này cũng xinh nè.', 'Dù có khen bao nhiêu lần đi nữa cũng không thể tả hết được vẻ đẹp này,', 'anh muốn ôm em.', 'Em là ánh sáng của anh hoặc là ..., hihi.', 'Yêu bé ❤️'] },
+            { photo: '/Giang_Sinh/img/anh6.png', title: '☕ Ấm áp bên em...', messages: ['Tấm này a bá cháy thật đấy, muahahaha.', 'Giáng sinh này, anh muốn ôm em thật chặt.', 'Như cách cách em chủ động ôm anh vào lần đầu vậy, hehe.', 'Rất rất iuuuuuu em! ☕'] },
+            { photo: '/Giang_Sinh/img/anh7.png', title: '🌹 Bó hoa bất ngờ...', messages: ['Tấm này nhìn em cũng nhoi quá.', 'Nhưng anh lại yêu cái nhoi này mất ròi.', 'Em phải chịu trách nhiệm nhé?', 'Anh muốn bên em ❤️'] },
+            { photo: '/Giang_Sinh/img/anh8.png', title: '🚀 Hành trình cùng em...', messages: ['Khi nhìn tấm ảnh này anh cứ ngỡ e là cô dâu', 'Sau này, anh muốn thấy dáng vẻ đó khi em bên cạnh anh.', 'Ở bên a nhé! ✈️'] }
+        ];
+
+        // Chọn tất cả 8 scenes (không random nữa vì chỉ có 8, nhưng vẫn shuffle để random vị trí)
+        function selectRandomScenes(numPairs = 8) {
+            const shuffled = [...allScenes].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, numPairs);
+        }
+
+        // Pre-load function để load tất cả ảnh trước (tránh blank khi flip)
+        async function preloadImages(scenes) {
+            const promises = scenes.map(scene => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        console.log(`Preloaded: ${scene.photo} - OK`);
+                        resolve(true);
+                    };
+                    img.onerror = () => {
+                        console.log(`Preload error: ${scene.photo} - Fallback to placeholder`);
+                        resolve(false); // Vẫn resolve nhưng mark error
+                    };
+                    img.src = scene.photo;
+                });
+            });
+            const results = await Promise.all(promises);
+            console.log('All images preloaded:', results.filter(Boolean).length, '/', scenes.length, 'success');
+            return results; // Array true/false cho mỗi scene
+        }
+
+        // Tạo memory cards từ selectedScenes (mỗi scene tạo 2 cards giống nhau)
+        async function createMemoryGame() {
+            selectedScenes = selectRandomScenes();
+            const preloadResults = await preloadImages(selectedScenes); // Pre-load trước
+            
+            gallery.innerHTML = '';
+            let cards = [];
+            
+            selectedScenes.forEach((scene, index) => {
+                const isLoaded = preloadResults[index];
+                for (let i = 0; i < 2; i++) {
+                    console.log(scene.photo);
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.dataset.scene = index;
+                    card.innerHTML = `
+                        <div class="face front">
+                            <span>🎄</span>
+                        </div>
+                        <div class="face back ${!isLoaded ? 'error' : ''}">
+                            <img src="${scene.photo}" class="thumb-photo ${!isLoaded ? 'error' : ''}" alt="Memory Card ${index + 1}">
+                        </div>
+                    `;
+                    cards.push(card);
+                }
+            });
+            
+            // Shuffle cards
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+            
+            // Add to gallery
+            cards.forEach((card, cardIndex) => {
+                gallery.appendChild(card);
+                card.addEventListener('click', handleCardClick);
+                const thumbImg = card.querySelector('.thumb-photo');
+                const backFace = card.querySelector('.face.back');
+                
+                // Double-check load sau khi append (cho trường hợp pre-load miss)
+                thumbImg.onload = function() {
+                    console.log(`Card ${cardIndex} back img loaded: ${this.src}`);
+                    backFace.classList.remove('error');
+                    this.classList.remove('error');
+                };
+                thumbImg.onerror = function() {
+                    console.log(`Card ${cardIndex} back img error: ${this.src} - Using placeholder`);
+                    backFace.classList.add('error');
+                    this.classList.add('error');
+                };
+            });
+            console.log('Memory game created with', cards.length, 'cards - Check console for img status');
+        }
+
+        // Tạo victory gallery với 8 cards
+        function createVictoryGallery() {
+            vgallery.innerHTML = '';
+            selectedScenes.forEach((scene, index) => {
+                const card = document.createElement('div');
+                card.className = 'victory-card';
+                card.dataset.scene = index;
+                card.innerHTML = `
+                    <div class="victory-face">
+                        <img src="${scene.photo}" class="victory-photo" alt="Kỷ niệm ${index + 1}">
+                        <div class="victory-overlay">Nhấn để đọc 💌</div>
+                    </div>
+                `;
+                card.addEventListener('click', () => showDetail(index));
+                vgallery.appendChild(card);
+            });
+            vgallery.classList.add('show');
+        }
+
+        // Xử lý click card
+        function handleCardClick(e) {
+            console.log("Card clicked"); // Debug tạm thời
+            const card = e.currentTarget;
+            const sceneIndex = parseInt(card.dataset.scene);
+            
+            // Nếu đã matched, cho phép click để đọc lại tâm thư (không flip, trực tiếp show detail)
+            if (card.classList.contains('matched')) {
+                console.log(`Matched card ${sceneIndex} clicked - Showing detail again`);
+                showDetail(sceneIndex);
+                return;
+            }
+            
+            const backFace = card.querySelector('.face.back');
+            const thumbImg = card.querySelector('.thumb-photo');
+            
+            if (card.classList.contains('flipped') || flippedCards.length >= 2) {
+                console.log("Skip: already flipped or max 2"); // Debug tạm thời
+                return;
+            }
+            
+            console.log(`Flipping card ${sceneIndex}...`); // Debug tạm thời
+            
+            card.classList.add('flipped');
+            
+            // Delay nhỏ để animation kick in trước khi push và kiểm tra
+            setTimeout(() => {
+                flippedCards.push({ element: card, index: sceneIndex });
+                console.log(`Pushed to flipped: ${sceneIndex}, total: ${flippedCards.length}`); // Debug tạm thời
+                
+                if (flippedCards.length === 2) {
+                    const [first, second] = flippedCards;
+                    console.log(`Compare: ${first.index} vs ${second.index}`); // Debug tạm thời
+                    
+                    if (first.index === second.index) {
+                        // Match: Add matched, KHÔNG remove flipped để giữ trạng thái lật (face back hiển thị vĩnh viễn), show detail, clear ngay
+                        console.log("Match! Adding matched");
+                        first.element.classList.add('matched');
+                        second.element.classList.add('matched');
+                        // Bỏ remove 'flipped' để card giữ nguyên trạng thái lật (transform rotateY(180deg) từ .matched !important sẽ đảm bảo face back hiển thị)
+                        matchedPairs.add(sceneIndex);
+                        
+                        // Clear flipped ngay để tránh overlap
+                        flippedCards = [];
+                        
+                        setTimeout(() => {
+                            console.log("Show detail");
+                            showDetail(sceneIndex);
+                        }, 500);
+                        
+                        if (matchedPairs.size === selectedScenes.length) {
+                            setTimeout(() => {
+                                console.log("Victory!");
+                                isVictory = true;
+                                createVictoryGallery();
+                                victoryOverlay.classList.add('show');
+                            }, 1000);
+                        }
+                    } else {
+                        // Non-match: Flip back sau 1s, clear sau
+                        console.log("No match, flip back in 1s");
+                        setTimeout(() => {
+                            console.log("Flip back non-match cards");
+                            first.element.classList.remove('flipped');
+                            second.element.classList.remove('flipped');
+                            flippedCards = []; // Clear sau flip back
+                        }, 1000);
+                    }
+                }
+            }, 50);
+        }
+
+        // Reset game (chơi lại, random mới)
+        function resetGame() {
+            isVictory = false;
+            matchedPairs.clear();
+            flippedCards = [];
+            selectedScenes = [];
+            gallery.innerHTML = '';
+            vgallery.innerHTML = '';
+            vgallery.classList.remove('show');
+            victoryOverlay.classList.remove('show');
+            hideDetail();
+            createMemoryGame();
+        }
+
+        // Exit game
+        function exitGame() {
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+            frame2.classList.remove('show');
+            frame2.style.display = 'none';
+            const title = document.getElementById('titleText');
+            title.textContent = '💌 Dành riêng cho em';
+            startBtn.textContent = 'Em sẵn sàng chưa? 🎄';
+            startBtn.style.animationPlayState = '';
+            isButtonClicked = false;
+            isVictory = false;
+            matchedPairs.clear();
+            flippedCards = [];
+            selectedScenes = [];
+            gallery.innerHTML = '';
+            vgallery.innerHTML = '';
+            vgallery.classList.remove('show');
+            victoryOverlay.classList.remove('show');
+            hideDetail();
+        }
+
+        // Load scene
+        function loadScene(index) {
+            const scene = selectedScenes[index];
+            currentPhoto.src = scene.photo;
+            document.getElementById('messageTitle').textContent = scene.title;
+            
+            const msgLines = ['msgLine1', 'msgLine2', 'msgLine3', 'msgLine4', 'msgLine5', 'msgLine6'];
+            msgLines.forEach((id, i) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = i < scene.messages.length ? scene.messages[i] : '';
+            });
+            
+            currentSceneIndex = index;
+            isMessageShown = false;
+            currentPhoto.onerror = function() { this.src = '/Giang_Sinh/img/anh1.png'; };
+        }
+
+        function showDetail(index) {
+            if (isVictory) {
+                victoryOverlay.classList.remove('show');
+            }
+            loadScene(index);
+            gallery.style.display = 'none';
+            detail.classList.remove('hidden');
+            detail.style.display = 'flex';
+            hint.style.display = 'block';
+            hint.style.opacity = '0.9';
+            messageSection.classList.add('hidden');
+            photoSection.classList.remove('scaled');
+            // Adjust back button text based on mode
+            backBtn.textContent = isVictory ? '← Quay lại gallery kỷ niệm' : '← Quay lại trò chơi';
+        }
+
+        function hideDetail() {
+            isMessageShown = false;
+            typingInProgress = false;
+            photoSection.classList.remove('scaled');
+            messageSection.classList.remove('show');
+            messageSection.classList.add('hidden');
+            hint.style.display = 'block';
+            hint.style.opacity = '0.9';
+            
+            if (isVictory) {
+                victoryOverlay.classList.add('show');
+            } else {
+                gallery.style.display = 'grid';
+                detail.classList.add('hidden');
+                detail.style.display = 'none';
+            }
+        }
+
+        // Click events
+        startBtn.addEventListener('click', () => {
+            if (isButtonClicked) return;
+            isButtonClicked = true;
+            
+            bgMusic.volume = 0.3;
+            bgMusic.play().catch(error => console.error('Lỗi nhạc:', error));
+            
+            startBtn.textContent = "Anh đang nói nè… 💕";
+            startBtn.style.animationPlayState = 'running';
+            
+            const title = document.getElementById('titleText');
+            title.style.opacity = '1';
+            
+            typeText(title, "Giáng sinh này, anh có điều muốn nói… Hãy tìm 8 cặp kỷ niệm từ 8 ảnh đặc biệt của chúng ta nhé! 🎄", 120);
+            
+            setTimeout(async () => {
+                await createMemoryGame(); // Await pre-load
+                frame2.style.display = 'flex';
+                setTimeout(() => frame2.classList.add('show'), 100);
+            }, 6000);
+        });
+
+        backBtn.addEventListener('click', hideDetail);
+
+        exitBtn.addEventListener('click', exitGame);
+
+        photoCard.addEventListener('click', () => {
+            console.log("Photo in detail clicked - showing message"); // Debug
+            if (isMessageShown) return;
+            isMessageShown = true;
+            
+            hint.style.opacity = '0';
+            setTimeout(() => hint.style.display = 'none', 300);
+            
+            photoSection.classList.add('scaled');
+            
+            messageSection.classList.remove('hidden');
+            setTimeout(() => messageSection.classList.add('show'), 100);
+            
+            const fastForwardListener = (e) => {
+                if (typingInProgress && e.target.id !== 'backBtn') {
+                    typingInProgress = false;
+                    fillMessagesImmediately(selectedScenes[currentSceneIndex]);
+                    detail.removeEventListener('click', fastForwardListener);
+                }
+            };
+            
+            detail.addEventListener('click', fastForwardListener);
+            
+            setTimeout(() => typeMessage(fastForwardListener), 900);
+        });
+
+        // Utility functions
+        function fillMessagesImmediately(scene) {
+            document.getElementById('messageTitle').innerHTML = scene.title;
+            const msgLines = ['msgLine1', 'msgLine2', 'msgLine3', 'msgLine4', 'msgLine5', 'msgLine6'];
+            msgLines.forEach((id, i) => {
+                const el = document.getElementById(id);
+                if (el && i < scene.messages.length) {
+                    el.innerHTML = scene.messages[i];
+                    if (i === scene.messages.length - 1) el.classList.add('highlight');
+                }
+            });
+        }
+
+        function typeText(element, text, speed = 120, callback = null) {
+            element.innerHTML = '';
+            let i = 0;
+            
+            function typeStep() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    
+                    let delay = speed;
+                    if (text.charAt(i - 1) === '…' || text.charAt(i - 1) === ',') delay = 600;
+                    
+                    setTimeout(typeStep, delay);
+                } else {
+                    if (callback) callback();
+                }
+            }
+            typeStep();
+        }
+
+        function typeMessage(fastForwardListener) {
+            typingInProgress = true;
+            const scene = selectedScenes[currentSceneIndex];
+            const h3 = document.getElementById('messageTitle');
+            const msgLines = ['msgLine1', 'msgLine2', 'msgLine3', 'msgLine4', 'msgLine5', 'msgLine6'];
+            
+            const texts = [
+                {el: h3, text: scene.title},
+                ...scene.messages.map((msg, i) => ({el: document.getElementById(msgLines[i]), text: msg}))
+            ].filter(item => item.el);
+            
+            let index = 0;
+            
+            function typeNext() {
+                if (index < texts.length && typingInProgress) {
+                    const item = texts[index];
+                    typeText(item.el, item.text, 150, () => {
+                        setTimeout(() => {
+                            index++;
+                            typeNext();
+                        }, 800);
+                    });
+                } else {
+                    typingInProgress = false;
+                    detail.removeEventListener('click', fastForwardListener);
+                }
+            }
+            typeNext();
+        }
+
+        console.log('Setup complete!');
+    </script>
+</body>
+</html>

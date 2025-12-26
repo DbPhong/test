@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giáng Sinh Cùng Em</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/Giang_Sinh/img/anh-mo-ta.jpg') center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        /* Photo Card */
+        .photo-card {
+            max-width: 460px;
+            margin: auto;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .photo-frame {
+    position: relative;
+    width: 460px;      /* Khung cố định */
+    height: 360px;
+    margin-bottom: 20px;
+}
+
+.inner-photo {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Lấp đầy khung */
+    border-radius: 12px;
+    z-index: 1;
+}
+
+.frame-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Khung luôn hiển thị đầy đủ */
+    z-index: 2;
+}
+
+        /* Message */
+        .message-section {
+            display: none;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .message-section.show {
+            display: block;
+        }
+
+        .highlight {
+            color: #ff69b4;
+            font-weight: 700;
+        }
+
+        .hint {
+            font-style: italic;
+            color: #ffb6c1;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            h1 { font-size: 2em; }
+            .photo-card { max-width: 320px; }
+            .photo-frame { padding-top: 78.26%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💌 Dành riêng cho em</h1>
+
+        <div id="photoCard" class="photo-card">
+            <!-- Khung chứa ảnh -->
+            <div class="photo-frame">
+                <!-- Ảnh con -->
+                <img id="innerPhoto" src="/Giang_Sinh/img/anh10.jpg" class="inner-photo" alt="Khoảnh khắc của chúng ta">
+                <!-- Ảnh khung -->
+                <img src="/Giang_Sinh/img/khung2.png" class="frame-img" alt="Khung Giáng Sinh">
+            </div>
+
+            <!-- Message -->
+            <div id="messageSection" class="message-section">
+                <h3>💌 Lời anh viết cho em...</h3>
+                <p>Những khoảnh khắc này, với anh đều rất đặc biệt.</p>
+                <p>Không phải vì chúng hoàn hảo, mà vì trong đó có em.</p>
+                <p class="highlight">Anh thương em nhiều lắm ❤️</p>
+            </div>
+
+            <p class="hint">Nhấn vào tấm ảnh để đọc lời anh... 💫</p>
+        </div>
+    </div>
+
+    <script>
+        const photoCard = document.getElementById('photoCard');
+        const messageSection = document.getElementById('messageSection');
+
+        photoCard.addEventListener('click', () => {
+            messageSection.classList.toggle('show');
+        });
+    </script>
+</body>
+</html>
