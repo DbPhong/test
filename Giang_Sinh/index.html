@@ -150,28 +150,114 @@
             transform: scale(1);
         }
 
-        /* Exit button */
-        .exit-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            font-size: 1em;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 105, 180, 0.5);
-            border-radius: 20px;
+        /* SỬA NÚT THOÁT VÀ QUAY LẠI - CHỈ SỬA PHẦN NÀY */
+        .exit-btn,
+        .back-btn {
+            position: fixed;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            font-weight: 700;
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(255, 105, 180, 0.6);
+            border-radius: 30px;
             color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 4;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 10;
+            min-height: 52px;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            touch-action: manipulation;
             font-family: 'Playfair Display', serif;
-            min-height: 44px; /* Touch-friendly */
-            min-width: 80px;
         }
 
-        .exit-btn:hover, .exit-btn:active {
+        .exit-btn:hover, .exit-btn:active,
+        .back-btn:hover, .back-btn:active {
             background: rgba(255, 105, 180, 0.3);
-            transform: scale(1.05);
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+            border-color: #ff69b4;
+        }
+
+        /* Vị trí mặc định */
+        .exit-btn {
+            top: 20px;
+            right: 20px;
+        }
+
+        .back-btn {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        /* Tablet & Mobile lớn */
+        @media (max-width: 1024px) {
+            .exit-btn,
+            .back-btn {
+                padding: 14px 24px;
+                font-size: 1.15em;
+                min-height: 56px;
+                min-width: 110px;
+            }
+            .exit-btn { top: 25px; right: 25px; }
+            .back-btn { bottom: 25px; left: 25px; }
+        }
+
+        /* Mobile trung bình */
+        @media (max-width: 768px) {
+            .exit-btn,
+            .back-btn {
+                padding: 12px 20px;
+                font-size: 1.05em;
+                min-height: 52px;
+                min-width: 100px;
+                border-radius: 28px;
+            }
+            .exit-btn {
+                top: calc(env(safe-area-inset-top, 0px) + 15px);
+                right: calc(env(safe-area-inset-right, 0px) + 15px);
+            }
+            .back-btn {
+                bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+                left: calc(env(safe-area-inset-left, 0px) + 15px);
+            }
+        }
+
+        /* Mobile nhỏ */
+        @media (max-width: 480px) {
+            .exit-btn,
+            .back-btn {
+                padding: 11px 18px;
+                font-size: 1em;
+                min-height: 48px;
+                min-width: 95px;
+            }
+            .exit-btn {
+                top: calc(env(safe-area-inset-top, 0px) + 12px);
+                right: calc(env(safe-area-inset-right, 0px) + 12px);
+            }
+            .back-btn {
+                bottom: calc(env(safe-area-inset-bottom, 0px) + 15px);
+                left: calc(env(safe-area-inset-left, 0px) + 12px);
+            }
+        }
+
+        /* Landscape mode - đưa nút back lên trên cùng với nút exit */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .back-btn {
+                top: calc(env(safe-area-inset-top, 0px) + 15px);
+                left: calc(env(safe-area-inset-left, 0px) + 15px);
+                bottom: auto;
+            }
+            .exit-btn {
+                top: calc(env(safe-area-inset-top, 0px) + 15px);
+                right: calc(env(safe-area-inset-right, 0px) + 15px);
+            }
         }
 
         /* Gallery - Memory game grid 4x4 */
@@ -244,8 +330,22 @@
             background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.2em;
+            font-size: 3.5em; /* Tăng size để đẹp và rõ trên mọi thiết bị */
             transform: rotateY(0deg);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 
+                         0 0 30px rgba(255, 182, 193, 0.6);
+            animation: frontGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes frontGlow {
+            0% { 
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 
+                             0 0 20px rgba(255, 182, 193, 0.4); 
+            }
+            100% { 
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.9), 
+                             0 0 40px rgba(255, 182, 193, 0.8); 
+            }
         }
 
         .face.back {
@@ -443,28 +543,6 @@
             overflow-y: auto; /* Cho phép scroll nếu message dài */
         }
 
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            font-size: 1em;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 105, 180, 0.5);
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 4;
-            min-height: 44px; /* Touch-friendly */
-            min-width: 120px;
-        }
-
-        .back-btn:hover, .back-btn:active {
-            background: rgba(255, 105, 180, 0.3);
-            transform: scale(1.05);
-        }
-
         .photo-card {
             cursor: pointer;
             transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -550,14 +628,14 @@
         }
 
         .back-content h3 {
-            font-size: 1.6em;
+            font-size: 1.8em; /* Tăng từ 1.6em */
             margin-bottom: 15px;
             color: #ff69b4;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .back-content p {
-            font-size: 1em;
+            font-size: 1.1em; /* Tăng từ 1em */
             line-height: 1.6;
             margin-bottom: 8px;
         }
@@ -565,7 +643,7 @@
         .highlight {
             color: #ff69b4;
             font-weight: 700;
-            font-size: 1.2em;
+            font-size: 1.3em; /* Tăng nhẹ cho highlight */
             animation: heartBeat 1.5s ease-in-out infinite;
             text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
@@ -591,6 +669,21 @@
 
         /* Mobile responsive - Cải thiện cho tablet và mobile */
         @media (max-width: 1024px) {
+            body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./img/anh-mo-ta_1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            color: white;
+            overflow: hidden;
+        }
             .gallery {
                 padding: 30px;
                 gap: 12px;
@@ -645,12 +738,16 @@
             }
 
             .back-content h3 { 
-                font-size: 1.4em; 
+                font-size: 1.6em; /* Giảm nhẹ cho mobile nhưng vẫn to hơn gốc */
             }
 
             .back-content p { 
-                font-size: 0.95em; 
+                font-size: 1em; /* Giảm nhẹ cho mobile */
                 line-height: 1.5;
+            }
+
+            .highlight {
+                font-size: 1.2em; /* Giảm nhẹ cho mobile */
             }
 
             .photo-section { 
@@ -679,19 +776,7 @@
             }
 
             .face.front {
-                font-size: 1em; /* Giảm emoji size */
-            }
-
-            .back-btn, .exit-btn { 
-                font-size: 0.9em; 
-                padding: 8px 16px; 
-                min-height: 44px;
-                top: 10px;
-                left: 10px; /* Back btn */
-            }
-
-            .exit-btn {
-                right: 10px;
+                font-size: 3em; /* Giảm nhẹ cho mobile nhưng vẫn to */
             }
 
             #victoryOverlay h2 { 
@@ -705,10 +790,10 @@
 
             .vgallery { 
                 grid-template-columns: repeat(4, 1fr); 
-                grid-template-rows: repeat(2, 1fr); 
+                grid-template-rows: repeat(3, 1fr); /* Thay thành 3 hàng cho responsive tốt hơn trên mobile */
                 gap: 8px; /* Giảm gap để bù cho card to hơn */
                 padding: 10px;
-                max-height: calc(50vh - 50px);
+                max-height: calc(60vh - 50px); /* Tăng height để fit 3 hàng */
                 overflow-y: auto;
                 justify-content: center;
             }
@@ -750,8 +835,13 @@
                 height: 80px; 
             }
 
+            .face.front {
+                font-size: 2.8em; /* Vẫn giữ to trên màn rất nhỏ */
+            }
+
             .vgallery {
                 gap: 6px; /* Giảm thêm gap cho màn nhỏ */
+                grid-template-rows: repeat(3, 1fr); /* Giữ 3 hàng */
             }
 
             .victory-card { 
@@ -769,11 +859,15 @@
             }
 
             .back-content h3 { 
-                font-size: 1.3em; 
+                font-size: 1.5em; /* Giảm nhẹ cho màn nhỏ */
             }
 
             .back-content p { 
-                font-size: 0.9em; 
+                font-size: 0.95em; /* Giảm nhẹ cho màn nhỏ */
+            }
+
+            .highlight {
+                font-size: 1.1em; /* Giảm nhẹ cho màn nhỏ */
             }
 
             #victoryOverlay h2 { 
@@ -787,36 +881,6 @@
                 max-height: 100vh;
                 padding: 10px;
             }
-
-            #victoryOverlay {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-around;
-            }
-
-            .victory-header {
-                width: 50%;
-                margin-bottom: 0;
-            }
-
-            .vgallery {
-                width: 50%;
-                max-height: 100vh;
-            }
-        }
-
-        /* Responsive cho background image (ảnh mô tả) - Thu nhỏ theo màn hình */
-        @media (max-width: 768px) {
-            body {
-                background-size: contain; /* Thay cover bằng contain để ảnh không bị crop, thu nhỏ vừa màn hình */
-                background-position: center top; /* Điều chỉnh vị trí để tránh bị cắt dưới mobile */
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                background-size: 120vw auto; /* Làm ảnh rộng hơn một chút để cover portrait nhỏ, nhưng vẫn responsive */
-            }
         }
     </style>
 </head>
@@ -826,7 +890,7 @@
         <h1 class="magic-text">
             <span id="titleText">💌 Dành riêng cho em</span>
         </h1>
-        <button id="startBtn">Em sẵn sàng chưa? 🎄</button>
+        <button id="startBtn">Em sẵn sàng chưa nà? 🎄</button>
     </div>
     
     <audio id="bgMusic" loop preload="auto">
@@ -856,7 +920,7 @@
                         <p id="msgLine6" class="highlight">Anh thương em nhiều lắm ❤️</p>
                     </div>
                 </div>
-                <p class="hint">Nhấn vào tấm ảnh để đọc lời anh... 💫</p>
+                <p class="hint">Nhấn vào tấm ảnh đi bé iu... 💫</p>
             </div>
         </div>
     </div>
@@ -864,9 +928,9 @@
     <!-- Victory Overlay -->
     <div id="victoryOverlay">
         <div class="victory-header">
-            <h2>🎉 Chúc mừng em! Đã tìm đủ 8 cặp kỷ niệm ❤️</h2>
-            <p>Anh yêu em nhiều lắm! Cùng tạo thêm kỷ niệm Giáng sinh nhé 💕</p>
-            <button onclick="resetGame()">Chơi lại với kỷ niệm mới 🎄</button>
+            <h2>🎉 Giỏi lắm em iuuu! Em đã tìm đủ 8 cặp kỷ niệm ❤️</h2>
+            <p>Anh iuuuuu em nhìuuuu lắm! Cùng tạo thêm kỷ niệm Giáng sinh cùng anh nhaaaa 💕</p>
+            <button onclick="resetGame()">Mún chơi lại hơm nè🎄</button>
         </div>
         <div id="vgallery" class="vgallery"></div>
     </div>
@@ -938,13 +1002,13 @@
 
         // Mảng 8 scenes (chỉ dùng 8 ảnh đầu tiên, bạn có thể chỉnh messages nếu cần)
         const allScenes = [
-            { photo: './img/anh1.png', title: '🎁 Quà tặng đặc biệt...', messages: ['Nói sao ta, bức ảnh này làm anh thấy em thật trẻ con.', 'Kiểu nó hồn nhiên á, anh thích em luôn như thế này.', 'Hãy luôn yêu đời và vui vẻ nha bé của anh.', 'Mà bớt nói chia tay đi', 'Yêu em ❤️'] },
+            { photo: './img/anh1.png', title: '🎁 Ảnh ngọn hải đăng...', messages: ['Nói sao ta, bức ảnh này làm anh thấy em thật trẻ con.', 'Kiểu nó hồn nhiên á, anh thích em luôn như thế này.', 'Hãy luôn yêu đời và vui vẻ nha bé của anh.', 'Mà bớt nói chia tay đi', 'Yêu em ❤️'] },
             { photo: './img/anh2.png', title: '🌟 Tấm ảnh vũng tàu...', messages: ['Tấm này cười tươi quá nè.', 'Mà tấm này nhìn em nhoi nhoi thật á.', 'Anh hy vọng là 2 đứa mình sẽ có thêm nhiều tấm ảnh kiểu này.','Hy vọng rằng anh và em luôn cười mãi khi gặp nhau, hehe.', 'Yêu em nhắmmmm! 😘'] },
-            { photo: './img/anh3.png', title: '💌 Lời anh viết cho em...', messages: ['Khong biết tại sao mà tấm này a cảm thấy nó rất đặc biệt.', 'Không phải vì chúng hoàn hảo,', 'mà vì trong đó có em.', 'Cảm ơn em vì đã ở bên anh,', 'đã cùng anh đi qua những ngày rất bình thường.', 'Anh thương em nhiều lắm ❤️'] },
+            { photo: './img/anh3.png', title: '💌 Đi chùa cùng em...', messages: ['Khong biết tại sao mà tấm này a cảm thấy nó rất đặc biệt.', 'Không phải vì chúng hoàn hảo,', 'mà vì trong đó có em.', 'Cảm ơn em vì đã ở bên anh,', 'đã cùng anh đi qua những ngày rất bình thường.', 'Anh thương em nhiều lắm ❤️'] },
             { photo: './img/anh4.png', title: '💕 Kỷ niệm Giáng sinh đầu tiên...', messages: ['Sao mà tấm này nó lại xinh lung linh thế nhỉ?', 'Ai mà lại xinh lung linh dị ta,', 'và tim anh rung động vì em.', 'Em là món quà tuyệt vời nhất anh từng có.', 'Hãy cùng anh tạo thêm nhiều kỷ niệm nhé.', 'Yêu em bá cháy 🔥'] },
             { photo: './img/anh5.png', title: '🎄 Ước mơ tương lai...', messages: ['Tấm này cũng xinh nè.', 'Dù có khen bao nhiêu lần đi nữa cũng không thể tả hết được vẻ đẹp này,', 'anh muốn ôm em.', 'Em là ánh sáng của anh hoặc là ..., hihi.', 'Yêu bé ❤️'] },
-            { photo: './img/anh6.png', title: '☕ Ấm áp bên em...', messages: ['Tấm này a bá cháy thật đấy, muahahaha.', 'Giáng sinh này, anh muốn ôm em thật chặt.', 'Như cách cách em chủ động ôm anh vào lần đầu vậy, hehe.', 'Rất rất iuuuuuu em! ☕'] },
-            { photo: './img/anh7.png', title: '🌹 Bó hoa bất ngờ...', messages: ['Tấm này nhìn em cũng nhoi quá.', 'Nhưng anh lại yêu cái nhoi này mất ròi.', 'Em phải chịu trách nhiệm nhé?', 'Anh muốn bên em ❤️'] },
+            { photo: './img/anh6.png', title: '☕ Ngày đầu bên em...', messages: ['Tấm này a bá cháy thật đấy, muahahaha.', 'Giáng sinh này, anh muốn ôm em thật chặt.', 'Như cách cách em chủ động ôm anh vào lần đầu vậy, hehe.', 'Rất rất iuuuuuu em! ☕'] },
+            { photo: './img/anh7.png', title: '🌹 Yêu mất cái nhoi này...', messages: ['Tấm này nhìn em cũng nhoi quá.', 'Nhưng anh lại yêu cái nhoi này mất ròi.', 'Em phải chịu trách nhiệm nhé?', 'Anh muốn bên em ❤️'] },
             { photo: './img/anh8.png', title: '🚀 Hành trình cùng em...', messages: ['Khi nhìn tấm ảnh này anh cứ ngỡ e là cô dâu', 'Sau này, anh muốn thấy dáng vẻ đó khi em bên cạnh anh.', 'Ở bên a nhé! ✈️'] }
         ];
 
@@ -992,7 +1056,7 @@
                     card.dataset.scene = index;
                     card.innerHTML = `
                         <div class="face front">
-                            <span>🎄</span>
+                            <span>✨ ❅🎄❅ ✨</span>
                         </div>
                         <div class="face back ${!isLoaded ? 'error' : ''}">
                             <img src="${scene.photo}" class="thumb-photo ${!isLoaded ? 'error' : ''}" alt="Memory Card ${index + 1}">
@@ -1099,13 +1163,12 @@
                             showDetail(sceneIndex);
                         }, 500);
                         
+                        // === PHẦN SỬA CHÍNH Ở ĐÂY ===
                         if (matchedPairs.size === selectedScenes.length) {
-                            setTimeout(() => {
-                                console.log("Victory!");
-                                isVictory = true;
-                                createVictoryGallery();
-                                victoryOverlay.classList.add('show');
-                            }, 1000);
+                            console.log("All pairs matched! Victory achieved, but waiting for user to finish reading last detail...");
+                            isVictory = true;
+                            createVictoryGallery(); // Chuẩn bị gallery trước, nhưng chưa hiện overlay
+                            // KHÔNG hiện victoryOverlay ngay nữa → sẽ hiện ở hideDetail()
                         }
                     } else {
                         // Non-match: Flip back sau 1s, clear sau
@@ -1171,7 +1234,7 @@
             
             currentSceneIndex = index;
             isMessageShown = false;
-            currentPhoto.onerror = function() { this.src = './img/anh1.png'; }; /* Sửa path fallback cho responsive */
+            currentPhoto.onerror = function() { this.src = '/Giang_Sinh/img/anh1.png'; };
         }
 
         function showDetail(index) {
@@ -1186,10 +1249,15 @@
             hint.style.opacity = '0.9';
             messageSection.classList.add('hidden');
             photoSection.classList.remove('scaled');
-            // Adjust back button text based on mode
-            backBtn.textContent = isVictory ? '← Quay lại gallery kỷ niệm' : '← Quay lại trò chơi';
+            // Cập nhật text nút back
+            backBtn.textContent = (isVictory && matchedPairs.size === selectedScenes.length) 
+                ? '← Xem lại hết kỷ niệm nà 💕' 
+                : isVictory 
+                    ? '← Quay lại gallery kỷ niệm' 
+                    : '← Quay lại trò chơi';
         }
 
+        // === PHẦN SỬA CHÍNH THỨ HAI ===
         function hideDetail() {
             isMessageShown = false;
             typingInProgress = false;
@@ -1200,7 +1268,9 @@
             hint.style.opacity = '0.9';
             
             if (isVictory) {
+                // Chỉ hiện victory khi đã thắng và người dùng thoát khỏi chi tiết
                 victoryOverlay.classList.add('show');
+                gallery.style.display = 'none'; // Ẩn game cũ
             } else {
                 gallery.style.display = 'grid';
                 detail.classList.add('hidden');
@@ -1252,6 +1322,7 @@
                 if (typingInProgress && e.target.id !== 'backBtn') {
                     typingInProgress = false;
                     fillMessagesImmediately(selectedScenes[currentSceneIndex]);
+                    // Xóa listener ngay sau khi fast-forward để tránh lặp
                     detail.removeEventListener('click', fastForwardListener);
                 }
             };
