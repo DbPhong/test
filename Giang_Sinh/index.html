@@ -804,6 +804,20 @@
                 max-height: 100vh;
             }
         }
+
+        /* Responsive cho background image (ảnh mô tả) - Thu nhỏ theo màn hình */
+        @media (max-width: 768px) {
+            body {
+                background-size: contain; /* Thay cover bằng contain để ảnh không bị crop, thu nhỏ vừa màn hình */
+                background-position: center top; /* Điều chỉnh vị trí để tránh bị cắt dưới mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                background-size: 120vw auto; /* Làm ảnh rộng hơn một chút để cover portrait nhỏ, nhưng vẫn responsive */
+            }
+        }
     </style>
 </head>
 <body>
@@ -1157,7 +1171,7 @@
             
             currentSceneIndex = index;
             isMessageShown = false;
-            currentPhoto.onerror = function() { this.src = '/Giang_Sinh/img/anh1.png'; };
+            currentPhoto.onerror = function() { this.src = './img/anh1.png'; }; /* Sửa path fallback cho responsive */
         }
 
         function showDetail(index) {
